@@ -2,12 +2,15 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { registerRootComponent } from 'expo';
+import Recipe from './recipe';
+
+// TODO: temp data import
+import {recipes as cookbook} from './recipe_list.json';
 
 function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <Recipe recipe={cookbook[0]}/>
     </View>
   );
 }
