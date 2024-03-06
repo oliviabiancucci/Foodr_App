@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     view: {
-        backgroundColor: "pink", 
+        backgroundColor: "#EB6F6F", 
         borderRadius: 10,
         marginBottom: 5,
         paddingTop: 5,
