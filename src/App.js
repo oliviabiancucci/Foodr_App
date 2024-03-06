@@ -2,7 +2,9 @@ import { StatusBar } from 'expo-status-bar';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import CookBook from './CookBook';
 
-export default function App() {
+import { registerRootComponent } from 'expo';
+
+function App() {
   return (
             <CookBook/>
     // <View style={styles.container}>
@@ -11,6 +13,8 @@ export default function App() {
     // </View>
   );
 }
+
+export default registerRootComponent(App);
 
 const styles = StyleSheet.create({
   container: {
