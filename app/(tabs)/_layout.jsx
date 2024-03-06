@@ -34,10 +34,10 @@ export default function TabLayout() {
 
             {/* Hidden routes */}
             <Tabs.Screen
-                name="recipe"
+                name="recipe/[id]"
                 options={{
                     title: 'Recipe',
-                    href: null
+                    href: null,
                 }}
             />
         </Tabs>
