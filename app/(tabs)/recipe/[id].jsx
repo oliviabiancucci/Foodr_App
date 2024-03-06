@@ -1,6 +1,7 @@
-import { Image, Text, View, Button } from "react-native";
+import { Image, Text, View, Button, Pressable } from "react-native";
 import styles from "../../styles";
 import { useLocalSearchParams, useRouter, Stack } from "expo-router";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { recipes as cookbook } from "../../recipe_list.json";
 
@@ -20,10 +21,7 @@ export default Page = () => {
                 options={{
                     // headerTitle: (props) => <LogoTitle {...props} />,
                     headerLeft: () => (
-                        <Button
-                            onPress={() => router.navigate("/cookbook")}
-                            title="Back"
-                        />
+                        <Pressable onPress={() => router.navigate('/cookbook')}><MaterialCommunityIcons name="arrow-collapse-left" size={35}/></Pressable>
                     ),
                 }}
             />
