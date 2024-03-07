@@ -4,7 +4,7 @@ const primaryColor = 'blue'
 
 export default styles = StyleSheet.create({
     container: {
-        backgroundColor: 'lightgray',
+        backgroundColor: 'white',
         width: '100%',
         height: '100%'
     },
@@ -13,7 +13,7 @@ export default styles = StyleSheet.create({
     },
     splashImage: {
         width: '100%',
-        height: '50%',
+        height: 300,
         resizeMode: 'cover'
     }
 })

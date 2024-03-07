@@ -2,9 +2,9 @@ import React from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 
-export default function TabLayout() {
+export default Layout = () => {
     return (
-        <Tabs screenOptions={{ tabBarActiveTintColor: "blue" }}>
+        <Tabs initialRouteName='index' backBehavior='history' screenOptions={{ tabBarActiveTintColor: "blue" }}>
             <Tabs.Screen
                 name="index"
                 options={{
