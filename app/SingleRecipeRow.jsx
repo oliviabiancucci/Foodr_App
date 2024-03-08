@@ -1,13 +1,13 @@
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-export default function SingleRecipeRow({title, image}){
+export default function SingleRecipeRow({title, image, price, speed}){
     return(
         <View style={styles.row}>
             <Image style={styles.im} source={{uri: image}}></Image>
             <View style={styles.column}>
                 <Text style={styles.title}>{title}</Text>
-                <View style={styles.view}><Text style={styles.tag}>Vegan</Text></View>
-                <View style={styles.view}><Text style={styles.tag}> Pasta</Text></View>
+                <View style={styles.view}><Text style={styles.tag}>{price}</Text></View>
+                <View style={styles.view}><Text style={styles.tag}> {speed}</Text></View>
             </View>
             <FontAwesome style={styles.calIcon} name="calendar-plus-o" size={48} color="black" />
             {/* <Text>Calendar</Text> */}
@@ -18,16 +18,11 @@ const styles = StyleSheet.create({
     im: {
         width: 75,
         height: 75,
-        marginTop: 12.5,
-        marginLeft: 12.5,
+        marginTop: 15,
+        marginLeft: 15,
     },
     row: {
         flexDirection:'row',
-        backgroundColor: 'lightgray',
-        margin: 20,
-        height: 100,
-        marginBottom: 0,
-        borderRadius: 10,
     },
     column: {
         flexDirection: 'column',

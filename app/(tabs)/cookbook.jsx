@@ -14,11 +14,13 @@ export default Page = () => {
                         href={{
                             pathname: "recipe/[id]",
                             params: { id: index },
-                        }}
+                        }} style={styles.row}
                     >
                         <SingleRecipeRow
                             title={item.recipeName}
                             image={item.imageUrl}
+                            speed={item.cookingTime}
+                            price={item.amountOfIngredients}
                         />
                     </Link>
                 );
@@ -28,3 +30,14 @@ export default Page = () => {
         />
     );
 };
+const styles = StyleSheet.create({
+    row: {
+        flexDirection:'row',
+        backgroundColor: 'lightgray',
+        margin: 20,
+        height: 100,
+        marginBottom: 0,
+        borderRadius: 10,
+        overflow: 'hidden',
+    },
+});
