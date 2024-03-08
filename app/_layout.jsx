@@ -9,7 +9,7 @@ export default Layout = () => {
   if (process.env.NODE_ENV === 'development' ) {
     useEffect(() => {
       // change shown page for development purposes
-      router.navigate('recipe/5');
+      router.navigate('/');
     })
   }
 
