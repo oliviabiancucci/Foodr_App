@@ -1,4 +1,4 @@
-import { Image, Text, View, Button, Pressable } from "react-native";
+import { Image, Text, View, Button, Pressable, FlatList, SectionList, SafeAreaView } from "react-native";
 import styles from "../../styles";
 import { useLocalSearchParams, useRouter, Stack } from "expo-router";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -26,6 +26,17 @@ export default Page = () => {
 
     const router = useRouter();
 
+    const DATA = [
+        {
+            title: 'Ingredients',
+            data: recipe.ingredients
+        },
+        {
+            title: 'Directions',
+            data: recipe.directions
+        }
+    ]
+
     return (
         <>
             <Stack.Screen
@@ -41,9 +52,33 @@ export default Page = () => {
                     ),
                 }}
             />
-            <View style={styles.container}>
-                <SplashImage recipe={recipe} />
-            </View>
+            <SplashImage recipe={recipe} />
+            <SafeAreaView style={styles.container}>
+                <SectionList 
+                    sections={DATA}
+                    renderItem={({item}) => {
+                        return <Text style={{fontSize: 18}}><MaterialCommunityIcons size={18} name="checkbox-blank-outline" /> {item}</Text>
+                    }}
+                    renderSectionHeader={({section: {title}}) => {
+                        return <Text style={styles.heading}>{title}</Text>
+                    }}
+                />
+                {/* <FlatList 
+                    data={recipe.ingredients}
+                    renderItem={({item, index}) => {
+                        return <Text style={{fontSize: 18}}><MaterialCommunityIcons size={18} name="checkbox-blank-outline" /> {item}</Text>
+                    }}
+                    keyExtractor={(index) => index}
+                />
+                <Text style={styles.heading}>Directions</Text>
+                <FlatList 
+                    data={recipe.directions}
+                    renderItem={({item, index}) => {
+                        return <Text style={{fontSize: 18}}><MaterialCommunityIcons size={18} name="checkbox-blank-outline" /> {item}</Text>
+                    }}
+                    keyExtractor={(index) => index}
+                /> */}
+            </SafeAreaView>
         </>
     );
 };
