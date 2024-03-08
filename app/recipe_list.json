@@ -11,6 +11,7 @@
             "isFavourite": true,
             "description": "This recipe will teach you how to make pasta yourself, using store bought noodles and jarred sauce!",
             "ingredients": ["Noodles", "Sauce", "Water", "Salt"],
+            "tags": ["Vegetarian", "Easy", "Cheap"],
             "directions": [
                 "Gather all your ingredients",
                 "Start boiling water.",
