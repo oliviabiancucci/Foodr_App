@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   image: {
     width: 375,
     height: 500,
-    borderRadius: 10,
+    borderRadius: 10, //no workie :(
     marginBottom: 10,
   },
   overlay: {
@@ -71,6 +71,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
   },
+  tagsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    padding: 10,
+  },
   tags: {
     fontSize: 18,
     color: '#FFFFFF',
@@ -79,8 +84,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     borderWidth: 2,
     borderColor: 'white',
-    marginRight: 5,
-    marginLeft: 10,
+    marginRight: 10,
     textAlign: 'center',
   },
   iconContainer: {
@@ -90,9 +94,5 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginHorizontal: 20,
-  },
-  tagsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
   },
 });
