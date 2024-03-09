@@ -18,6 +18,7 @@ export default function Main() {
     } else {
       setSavedRecipes([...savedRecipes, recipe]);
     }
+    setCurrentRecipeIndex((prevIndex) => (prevIndex + 1) % data.length);
   };
 
   const handleXPress = () => {
