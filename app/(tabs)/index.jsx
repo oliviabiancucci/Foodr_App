@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, ImageBackground, TouchableOpacity, Text, FlatList } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { StyleSheet, View, ImageBackground, TouchableOpacity, Text, FlatList, PanResponder, Animated } from 'react-native';
 import { recipes as data } from '../recipe_list.json';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -9,6 +9,52 @@ export default function Main() {
   const [currentRecipeIndex, setCurrentRecipeIndex] = useState(0);
 
   const recipe = data[currentRecipeIndex];
+
+  const pan = useRef(new Animated.ValueXY()).current;
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderMove: Animated.event(
+        [null, { dx: pan.x, dy: pan.y }],
+        { useNativeDriver: false }
+      ),
+      onPanResponderRelease: (_, gesture) => {
+        if (gesture.dx > 120) {
+          handleSwipe('right');
+        } else if (gesture.dx < -120) {
+          handleSwipe('left');
+        } else {
+          Animated.spring(pan, { toValue: { x: 0, y: 0 }, useNativeDriver: false }).start();
+        }
+      }
+    })
+  ).current;
+
+  const handleSwipe = (direction) => {
+    Animated.timing(pan, {
+      toValue: {
+        x: direction == 'right' ? 500 : -500,
+        y: 0
+      },
+      duration: 300,
+      useNativeDriver: false
+    }).start(() => {
+      if (direction == 'right') {
+        console.log("swiped right");
+        const isSaved = savedRecipes.some((savedRecipe) => savedRecipe.recipeName === recipe.recipeName);
+        if (!isSaved) {
+          setSavedRecipes([...savedRecipes, recipe]);
+        }
+      }
+      else{
+        console.log("swiped left");
+      }
+      direction == 'right' ? handleHeartPress() : handleXPress();
+      pan.setValue({ x: 0, y: 0 });
+    });
+  };
+  
 
   const handleHeartPress = () => {
     const isSaved = savedRecipes.some((savedRecipe) => savedRecipe.recipeName === recipe.recipeName);
@@ -27,22 +73,32 @@ export default function Main() {
 
   return (
     <View style={styles.container}>
-      <ImageBackground source={{ uri: recipe.imageUrl }} style={styles.image}>
-        <LinearGradient
-          colors={["#00000000", "#000000"]}
-          style={{ height: "100%", width: "100%", flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center', }}
-        >
-          <View style={styles.overlay}>
-            <Text style={styles.recipeName}>{recipe.recipeName}</Text>
-            <Text style={styles.cookTime}>{recipe.cookTime} mins</Text>
-            <View style={styles.tagsContainer}>
-              {recipe.tags.map((tag, index) => (
-                <Text key={index} style={[styles.tags, styles.tag]}>{tag}</Text>
-              ))}
+      <Animated.View
+        style={[
+          styles.card,
+          {
+            transform: [{ translateX: pan.x }, { translateY: pan.y }],
+          },
+        ]}
+        {...panResponder.panHandlers}
+      >
+        <ImageBackground source={{ uri: recipe.imageUrl }} style={styles.image}>
+          <LinearGradient
+            colors={["#00000000", "#000000"]}
+            style={{ height: "100%", width: "100%", flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center', }}
+          >
+            <View style={styles.overlay}>
+              <Text style={styles.recipeName}>{recipe.recipeName}</Text>
+              <Text style={styles.cookTime}>{recipe.cookTime} mins</Text>
+              <View style={styles.tagsContainer}>
+                {recipe.tags.map((tag, index) => (
+                  <Text key={index} style={[styles.tags, styles.tag]}>{tag}</Text>
+                ))}
+              </View>
             </View>
-          </View>
-        </LinearGradient>
-      </ImageBackground>
+          </LinearGradient>
+        </ImageBackground>
+      </Animated.View>
       <FlatList
         data={savedRecipes}
         renderItem={({ item }) => (
@@ -51,11 +107,11 @@ export default function Main() {
         keyExtractor={(item, index) => index.toString()}
       />
       <View style={styles.iconContainer}>
-        <TouchableOpacity style={styles.icon} onPress={handleHeartPress}>
-          <AntDesign name="heart" size={70} color="#EB6F6F"/>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.icon} onPress={handleXPress}>
+        <TouchableOpacity style={styles.icon} onPress={() => handleSwipe('left')}>
           <MaterialIcons name="cancel" size={73} color="#EB6F6F" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.icon} onPress={() => handleSwipe('right')}>
+          <AntDesign name="heart" size={70} color="#EB6F6F"/>
         </TouchableOpacity>
       </View>
     </View>
@@ -69,18 +125,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
   },
-  image: {
+  card: {
+    position: 'absolute',
     width: 375,
     height: 500,
     borderRadius: 10,
     marginBottom: 10,
   },
+  image: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 10,
+  },
   overlay: {
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'flex-end',
     alignItems: 'flex-start',
-    width: 375,
-    height: 500,
+    width: '100%',
+    height: '100%',
   },
   recipeName: {
     fontSize: 40,
