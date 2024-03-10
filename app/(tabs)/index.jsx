@@ -40,6 +40,7 @@ export default function Main() {
       duration: 300,
       useNativeDriver: false
     }).start(() => {
+      console.log("here")
       direction === 'right' ? handleHeartPress() : handleXPress();
       pan.setValue({ x: 0, y: 0 });
     });
@@ -114,8 +115,6 @@ export default function Main() {
     </View>
   );  
 }
-
-export {savedRecipes};
 
 const styles = StyleSheet.create({
   container: {
