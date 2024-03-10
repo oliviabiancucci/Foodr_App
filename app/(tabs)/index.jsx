@@ -115,6 +115,8 @@ export default function Main() {
   );  
 }
 
+export {savedRecipes};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
