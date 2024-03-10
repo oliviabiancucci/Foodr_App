@@ -7,6 +7,7 @@ import { recipes as cookbook } from "../../recipe_list.json";
 
 import { ImageBackground } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { ProfileImage } from "app/components";
 const SplashImage = ({ recipe }) => {
     return (
         <ImageBackground style={styles.splashImage} src={recipe.imageUrl}>
@@ -53,6 +54,9 @@ export default Page = () => {
                 }}
             />
             <SplashImage recipe={recipe} />
+            {/* <View style={{width: "100%", height: 300}}>
+                <ProfileImage recipe={recipe} />
+            </View> */}
             <SafeAreaView style={styles.container}>
                 <SectionList 
                     sections={DATA}
