@@ -37,6 +37,7 @@
                 "Tomatoes",
                 "Cheese"
             ],
+            "tags": ["Beef", "Meat", "Easy"],
             "directions": [
                 "Turn the oven on and put a pan on",
                 "Put the burgers on the pan",
@@ -61,6 +62,7 @@
                 "Caesar Dressing",
                 "Parmesan Cheese"
             ],
+            "tags": ["Vegetarian", "Easy", "Cheap"],
             "directions": [
                 "Rinse off the lettuce",
                 "Put the lettuce in a medium bowl and mix it with the dressing.",
@@ -95,6 +97,7 @@
                 "Egg",
                 "Flaky Salt"
             ],
+            "tags": ["Beef", "Hard", "Meat", "Expensive"],
             "directions": [
                 "Using kitchen twine, tie tenderloin in 4 places. Season generously with salt and pepper.",
                 "Over high heat, coat bottom of a heavy skillet with olive oil. Once pan is nearly smoking, sear tenderloin until well-browned on all sides, including the ends, about 2 minutes per side (12 minutes total). Transfer to a plate. When cool enough to handle, snip off twine and coat all sides with mustard. Let cool in fridge.",
@@ -130,6 +133,7 @@
                 "Spanish Onion",
                 "Head Garlic"
             ],
+            "tags": ["Turkey", "Meat", "Medium", "Expensive"],
             "directions": [
                 "Preheat the oven to 350 degrees F.",
                 "Melt the butter in a small saucepan. Add the zest and juice of the lemon and 1 teaspoon of thyme leaves to the butter mixture. Set aside.",
@@ -161,6 +165,7 @@
                 "Mixed Apples",
                 "Lemon Juice"
             ],
+            "tags": ["Dessert", "Vegetarian", "Medium", "Cheap"],
             "directions": [
                 "Make the crust: Whisk the flour, granulated sugar and salt in a large bowl. Rub the butter pieces into the flour using your fingers until pea-size pieces form. Drizzle in the vinegar and ice water; stir gently with a fork to combine. If the dough doesn’t hold together when you squeeze it, add more ice water, 1 tablespoon at a time. Turn out the dough onto a piece of plastic wrap and form into a disk; wrap tightly. Refrigerate until firm, at least 1 hour or overnight.",
                 "Roll out the dough on a lightly floured surface into a 13-inch round. Ease into a 9-inch pie plate. Trim the edges, leaving a 1-inch overhang, then tuck the overhanging dough under itself; crimp the edges with a fork. Refrigerate until firm, at least 1 hour or overnight.",
@@ -181,6 +186,7 @@
             "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0pTZRegw_OcN59vrerdbD8tjHP5O3O5jkAg&usqp=CAU",
             "isFavourite": false,
             "ingredients": ["Premade Pizza Crust", "Sauce", "Cheese"],
+            "tags": ["Vegetarian", "Easy", "Cheap"],
             "directions": [
                 "Preheat oven",
                 "Shred cheese",
@@ -213,6 +219,7 @@
                 "Sprig Fresh Thyme",
                 "Pearl Onions"
             ],
+            "tags": ["Beef", "Meat", "Easy"],
             "directions": [
                 "Add the oil to the Instant Pot and set to saute",
                 "Meanwhile, toss the beef with the flour, 2 teaspoons salt, and a generous amount of pepper in a medium bowl. Add the meat and all the flour to the Instant Pot in a single layer and cook, undisturbed, until golden brown on the bottom, about 3 minutes. Stir once and allow to brown for another 2 to 3 minutes. Add the tomato paste and stir to coat. Add the wine and bring to a boil. Cook for 1 minute, scraping up browned bits from the bottom of the pot with a wooden spoon.",
@@ -247,6 +254,7 @@
                 "Store Bought Pie Crust",
                 "Egg"
             ],
+            "tags": ["Chicken", "Meat", "Medium", "Cheap"],
             "directions": [
                 "Preheat the oven to 400 degrees F.",
                 "Sprinkle the chicken tenders with paprika, sage, oregano, salt and pepper. Heat a 10-inch cast-iron pan over medium-high heat and add the olive oil. When the oil begins to swirl, add the seasoned chicken and saute until cooked through, about 4 minutes on the first side and 3 minutes on the second side. Remove the chicken to a plate with tongs, leaving the oil in the pan. Rest the chicken for a few minutes, and then chop into 1/2-inch cubes.",

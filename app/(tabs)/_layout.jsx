@@ -4,7 +4,7 @@ import { Tabs } from "expo-router";
 
 export default Layout = () => {
     return (
-        <Tabs initialRouteName='index' backBehavior='history' screenOptions={{ tabBarActiveTintColor: "blue" }}>
+        <Tabs initialRouteName='index' backBehavior='history' screenOptions={{ tabBarActiveTintColor: "#EB6F6F" }}>
             <Tabs.Screen
                 name="index"
                 options={{
