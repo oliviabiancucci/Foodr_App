@@ -191,8 +191,9 @@ const styles = StyleSheet.create({
   },
   endMessage: {
     fontSize: 20,
+    fontWeight: 'bold',
     padding: 20,
-    backgroundColor: 'lightgray',
-    borderRadius: 10,
+    backgroundColor: '#EB6F6F',
+    borderRadius: 30,
   },
 });

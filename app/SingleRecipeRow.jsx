@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         paddingBottom:5,
     },
     tag: {
-        fontSize: 12,
+        fontSize: 14,
         textAlign: 'left',
         marginLeft: 10,
         marginRight: 10,
@@ -52,6 +52,6 @@ const styles = StyleSheet.create({
         //margin:25, 
         position: 'absolute',
         marginLeft: 270,
-        marginTop: 25
+        marginTop: 25,
     }
 });
