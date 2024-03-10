@@ -41,7 +41,6 @@ export default Main = inject('stringStore')(observer(({stringStore}) => {
       duration: 300,
       useNativeDriver: false
     }).start(() => {
-      console.log("here")
       direction === 'right' ? handleHeartPress() : handleXPress();
       pan.setValue({ x: 0, y: 0 });
     });
@@ -68,54 +67,50 @@ export default Main = inject('stringStore')(observer(({stringStore}) => {
   return (
     <View style={styles.container}>
       {currentRecipeIndex < data.length - 1 ? (
-        <Animated.View
-          style={[
-            styles.card,
-            {
-              transform: [{ translateX: pan.x }, { translateY: pan.y }],
-            },
-          ]}
-          {...panResponder.panHandlers}
-        >
-          <ImageBackground source={{ uri: recipe.imageUrl }} style={styles.image}>
-            <LinearGradient
-              colors={["#00000000", "#000000"]}
-              style={{ height: "100%", width: "100%", flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center', }}
-            >
-              <View style={styles.overlay}>
-                <Text style={styles.recipeName}>{recipe.recipeName}</Text>
-                <Text style={styles.cookTime}>{recipe.cookTime} mins</Text>
-                <View style={styles.tagsContainer}>
-                  {recipe.tags.map((tag, index) => (
-                    <Text key={index} style={[styles.tags, styles.tag]}>{tag}</Text>
-                  ))}
+        <>
+          <Animated.View
+            style={[
+              styles.card,
+              {
+                transform: [{ translateX: pan.x }, { translateY: pan.y }],
+              },
+            ]}
+            {...panResponder.panHandlers}
+          >
+            <ImageBackground source={{ uri: recipe.imageUrl }} style={[styles.image, { marginTop: -50 }]}>
+              <LinearGradient
+                colors={["#00000000", "#000000"]}
+                style={{ height: "100%", width: "100%", flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center', }}
+              >
+                <View style={styles.overlay}>
+                  <Text style={styles.recipeName}>{recipe.recipeName}</Text>
+                  <Text style={styles.cookTime}>{recipe.cookTime} mins</Text>
+                  <View style={styles.tagsContainer}>
+                    {recipe.tags.map((tag, index) => (
+                      <Text key={index} style={[styles.tags, styles.tag]}>{tag}</Text>
+                    ))}
+                  </View>
                 </View>
-              </View>
-            </LinearGradient>
-          </ImageBackground>
-        </Animated.View>
+              </LinearGradient>
+            </ImageBackground>
+          </Animated.View>
+          <FlatList/>
+          <View style={styles.iconContainer}>
+            <TouchableOpacity style={styles.icon} onPress={() => handleSwipe('left')}>
+              <MaterialIcons name="cancel" size={73} color="#EB6F6F" />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.icon} onPress={() => handleSwipe('right')}>
+              <AntDesign name="heart" size={70} color="#EB6F6F"/>
+            </TouchableOpacity>
+          </View>
+        </>
       ) : (
         <View style={styles.endMessageContainer}>
           <Text style={styles.endMessage}>More recipes coming soon!</Text>
         </View>
       )}
-      <FlatList
-        data={savedRecipes}
-        renderItem={({ item }) => (
-          <Text style={styles.savedRecipe}>{item.recipeName}</Text>
-        )}
-        keyExtractor={(item, index) => index.toString()}
-      />
-      <View style={styles.iconContainer}>
-        <TouchableOpacity style={styles.icon} onPress={() => handleSwipe('left')}>
-          <MaterialIcons name="cancel" size={73} color="#EB6F6F" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.icon} onPress={() => handleSwipe('right')}>
-          <AntDesign name="heart" size={70} color="#EB6F6F"/>
-        </TouchableOpacity>
-      </View>
     </View>
-  );  
+  );
 }
 ))
 
@@ -178,7 +173,7 @@ const styles = StyleSheet.create({
   iconContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 10,
+    padding: 25,
   },
   icon: {
     marginHorizontal: 20,
@@ -196,6 +191,8 @@ const styles = StyleSheet.create({
   },
   endMessage: {
     fontSize: 20,
-    color: '#000000',
+    padding: 20,
+    backgroundColor: 'lightgray',
+    borderRadius: 10,
   },
 });
