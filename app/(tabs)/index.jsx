@@ -24,7 +24,7 @@ export default function Main() {
           handleSwipe('right');
         } else if (gesture.dx < -120) {
           handleSwipe('left');
-        } else {
+        } else { //return back to middle
           Animated.spring(pan, { toValue: { x: 0, y: 0 }, useNativeDriver: false }).start();
         }
       }
@@ -34,27 +34,16 @@ export default function Main() {
   const handleSwipe = (direction) => {
     Animated.timing(pan, {
       toValue: {
-        x: direction == 'right' ? 500 : -500,
+        x: direction === 'right' ? 500 : -500,
         y: 0
       },
       duration: 300,
       useNativeDriver: false
     }).start(() => {
-      if (direction == 'right') {
-        console.log("swiped right");
-        const isSaved = savedRecipes.some((savedRecipe) => savedRecipe.recipeName === recipe.recipeName);
-        if (!isSaved) {
-          setSavedRecipes([...savedRecipes, recipe]);
-        }
-      }
-      else{
-        console.log("swiped left");
-      }
-      direction == 'right' ? handleHeartPress() : handleXPress();
+      direction === 'right' ? handleHeartPress() : handleXPress();
       pan.setValue({ x: 0, y: 0 });
     });
   };
-  
 
   const handleHeartPress = () => {
     const isSaved = savedRecipes.some((savedRecipe) => savedRecipe.recipeName === recipe.recipeName);
@@ -68,37 +57,45 @@ export default function Main() {
   };
 
   const handleXPress = () => {
-    setCurrentRecipeIndex((prevIndex) => (prevIndex + 1) % data.length);
+    if (currentRecipeIndex + 1 < data.length) {
+      setCurrentRecipeIndex((prevIndex) => (prevIndex + 1) % data.length);
+    }
   };
 
   return (
     <View style={styles.container}>
-      <Animated.View
-        style={[
-          styles.card,
-          {
-            transform: [{ translateX: pan.x }, { translateY: pan.y }],
-          },
-        ]}
-        {...panResponder.panHandlers}
-      >
-        <ImageBackground source={{ uri: recipe.imageUrl }} style={styles.image}>
-          <LinearGradient
-            colors={["#00000000", "#000000"]}
-            style={{ height: "100%", width: "100%", flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center', }}
-          >
-            <View style={styles.overlay}>
-              <Text style={styles.recipeName}>{recipe.recipeName}</Text>
-              <Text style={styles.cookTime}>{recipe.cookTime} mins</Text>
-              <View style={styles.tagsContainer}>
-                {recipe.tags.map((tag, index) => (
-                  <Text key={index} style={[styles.tags, styles.tag]}>{tag}</Text>
-                ))}
+      {currentRecipeIndex < data.length - 1 ? (
+        <Animated.View
+          style={[
+            styles.card,
+            {
+              transform: [{ translateX: pan.x }, { translateY: pan.y }],
+            },
+          ]}
+          {...panResponder.panHandlers}
+        >
+          <ImageBackground source={{ uri: recipe.imageUrl }} style={styles.image}>
+            <LinearGradient
+              colors={["#00000000", "#000000"]}
+              style={{ height: "100%", width: "100%", flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center', }}
+            >
+              <View style={styles.overlay}>
+                <Text style={styles.recipeName}>{recipe.recipeName}</Text>
+                <Text style={styles.cookTime}>{recipe.cookTime} mins</Text>
+                <View style={styles.tagsContainer}>
+                  {recipe.tags.map((tag, index) => (
+                    <Text key={index} style={[styles.tags, styles.tag]}>{tag}</Text>
+                  ))}
+                </View>
               </View>
-            </View>
-          </LinearGradient>
-        </ImageBackground>
-      </Animated.View>
+            </LinearGradient>
+          </ImageBackground>
+        </Animated.View>
+      ) : (
+        <View style={styles.endMessageContainer}>
+          <Text style={styles.endMessage}>More recipes coming soon!</Text>
+        </View>
+      )}
       <FlatList
         data={savedRecipes}
         renderItem={({ item }) => (
@@ -115,7 +112,7 @@ export default function Main() {
         </TouchableOpacity>
       </View>
     </View>
-  );
+  );  
 }
 
 const styles = StyleSheet.create({
@@ -187,5 +184,14 @@ const styles = StyleSheet.create({
     color: '#000000',
     paddingHorizontal: 10,
     paddingVertical: 5,
+  },
+  endMessageContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  endMessage: {
+    fontSize: 20,
+    color: '#000000',
   },
 });
