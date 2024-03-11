@@ -16,11 +16,11 @@ export default Layout = () => {
         <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen
-                name="filter"
+                name="(modals)/filter"
                 options={{ title: "Filter", presentation: "modal" }}
             />
             <Stack.Screen
-                name="recipe/[id]"
+                name="(modals)/recipe/[id]"
                 options={{
                     title: "Recipe",
                     presentation: "modal",

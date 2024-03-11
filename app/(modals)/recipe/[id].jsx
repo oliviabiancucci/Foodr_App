@@ -1,9 +1,9 @@
 import { Image, Text, View, Button, Pressable, FlatList, SectionList, SafeAreaView } from "react-native";
-import styles from "../styles";
+import styles from "../../styles";
 import { useLocalSearchParams, useRouter, Stack } from "expo-router";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { recipes as cookbook } from "../recipe_list.json";
+import { recipes as cookbook } from "../../recipe_list.json";
 
 import { ImageBackground } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
