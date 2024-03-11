@@ -4,7 +4,11 @@ import { Tabs } from "expo-router";
 
 export default Layout = () => {
     return (
-        <Tabs initialRouteName='index' backBehavior='history' screenOptions={{ tabBarActiveTintColor: "#EB6F6F" }}>
+        <Tabs
+            initialRouteName="index"
+            backBehavior="history"
+            screenOptions={{ tabBarActiveTintColor: "#EB6F6F" }}
+        >
             <Tabs.Screen
                 name="index"
                 options={{
@@ -31,15 +35,6 @@ export default Layout = () => {
                     ),
                 }}
             />
-
-            {/* Hidden routes */}
-            <Tabs.Screen
-                name="recipe/[id]"
-                options={{
-                    title: 'Recipe',
-                    href: null,
-                }}
-            />
         </Tabs>
     );
-}
+};

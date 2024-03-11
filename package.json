@@ -27,5 +27,8 @@
   "devDependencies": {
     "@babel/core": "^7.20.0"
   },
-  "private": true
+  "private": true,
+  "imports": {
+    "#components": "./app/components/index.js"
+  }
 }
