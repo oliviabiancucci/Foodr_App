@@ -16,8 +16,8 @@ export const getMatch = async () => {
 
         const resJson = response.data.meals[0];
 
-        const ingredientNames = Object.keys(resJson).filter(v => /^strIngredient/.test(v) && resJson[v].trim() != "");
-        const ingredientMeasures = Object.keys(resJson).filter(v => /^strMeasure/.test(v) && resJson[v].trim() != "");
+        const ingredientNames = Object.keys(resJson).filter(v => /^strIngredient/.test(v) && resJson[v] && resJson[v].trim() != "");
+        const ingredientMeasures = Object.keys(resJson).filter(v => /^strMeasure/.test(v) && resJson[v] && resJson[v].trim() != "");
 
         const mealJson = {
             id: resJson.idMeal,
