@@ -9,7 +9,7 @@ export default function SingleRecipeRow({title, image, price, speed}){
                 <View style={styles.view}><Text style={styles.tag}>{price}</Text></View>
                 <View style={styles.view}><Text style={styles.tag}> {speed}</Text></View>
             </View>
-            <FontAwesome style={styles.calIcon} name="calendar-plus-o" size={48} color="black" />
+            {/* <FontAwesome style={styles.calIcon} name="calendar-plus-o" size={48} color="black" /> */}
             {/* <Text>Calendar</Text> */}
         </View>
     )

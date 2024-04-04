@@ -3,14 +3,14 @@ import { StyleSheet, Text, View, ScrollView } from "react-native";
 import SingleRecipeRow from "../SingleRecipeRow";
 import { Link } from "expo-router";
 import { observer } from 'mobx-react';
-import stringStore from "../SavedRecipes";
+import recipeStore from "../SavedRecipes";
 
 const CookBook = observer(() => {
-    const favList = stringStore.saved.map((item, index) => (
+    const favList = recipeStore.saved.map((item, index) => (
         <Link key={(index + 1) * 100}
               href={{ pathname: "recipe/[id]", params: { id: index } }}
               style={styles.row}>
-            <SingleRecipeRow title={item.name} image={item.image} speed={item.speed} price={item.price} />
+            <SingleRecipeRow title={item.strMeal} image={item.strMealThumb} speed={"fast"} price={"cheap"} />
         </Link>
     ));
 

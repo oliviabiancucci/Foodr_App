@@ -63,7 +63,7 @@ export default Page = () => {
         }}>
             <SectionList
                 sections={DATA}
-                renderItem={({item}) => (<View style={{display: "flex", flexDirection: "row"}}><ToggleSwitch title={item} /></View>)}
+                renderItem={({item}) => (<View style={{display: "flex", flexDirection: "column", justifyContent: "space-evenly"}}><ToggleSwitch title={item.toUpperCase()} /></View>)}
                 renderSectionHeader={({section: {title}}) => <Text style={styles.heading}>{title}</Text>}
             />
             <View>

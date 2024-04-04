@@ -7,10 +7,17 @@ class SavedRecipes {
     makeAutoObservable(this);
   }
 
-  addFavorite(name, image , speed, price) {
-    this.saved.push({name: name, image: image, speed: speed, price: price});
+  // addFavorite(name, image , speed, price) {
+  //   this.saved.push({name: name, image: image, speed: speed, price: price});
+  // }
+  addFavorite(mealID) {
+    this.saved.push(mealID);
+  }
+
+  removeFavorite(mealID) {
+    
   }
 
 }
-const stringStore = new SavedRecipes();
-export default stringStore;
+const recipeStore = new SavedRecipes();
+export default recipeStore;

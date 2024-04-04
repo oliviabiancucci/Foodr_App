@@ -1,6 +1,6 @@
 import React from "react";
 import { Provider } from "mobx-react";
-import StringStore from "../SavedRecipes";
+import RecipeStore from "../SavedRecipes";
 import Swipe from "../swipe";
 import { Stack, useRouter } from "expo-router";
 import { Pressable } from "react-native";
@@ -11,7 +11,7 @@ const App = () => {
     const router = useRouter();
 
     return (
-        <Provider stringStore={StringStore}>
+        <Provider recipeStore={RecipeStore}>
             <Stack.Screen
                 options={{
                     headerRight: () => (
