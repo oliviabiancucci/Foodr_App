@@ -8,14 +8,17 @@ import { recipes as cookbook } from "../../recipe_list.json";
 import { ImageBackground } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { ProfileImage } from "app/components";
+
+import recipeStore from "app/SavedRecipes";
+
 const SplashImage = ({ recipe }) => {
     return (
-        <ImageBackground style={styles.splashImage} src={recipe.imageUrl}>
+        <ImageBackground style={styles.splashImage} src={recipe.thumbnail}>
             <LinearGradient
                 colors={["#00000000", "#000000"]}
                 style={{ height: "100%", width: "100%", flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center' }}
             >
-                <Text style={{color: 'white', fontSize: 50, fontStyle: 'italic'}}>{recipe.recipeName}</Text>
+                <Text style={{color: 'white', fontSize: 50, fontStyle: 'italic'}}>{recipe.name}</Text>
             </LinearGradient>
         </ImageBackground>
     );
@@ -23,7 +26,7 @@ const SplashImage = ({ recipe }) => {
 
 export default Page = () => {
     const { id } = useLocalSearchParams();
-    const recipe = cookbook[id];
+    const recipe = recipeStore.getFavoriteById(id);
 
     const router = useRouter();
 
@@ -34,7 +37,8 @@ export default Page = () => {
         },
         {
             title: 'Directions',
-            data: recipe.directions
+            // data: recipe.directions
+            data: []
         }
     ]
 
@@ -42,7 +46,7 @@ export default Page = () => {
         <>
             <Stack.Screen
                 options={{
-                    headerTitle: cookbook[id].recipeName
+                    headerTitle: recipe.name
                 }}
             />
             <SplashImage recipe={recipe} />
@@ -53,7 +57,7 @@ export default Page = () => {
                 <SectionList 
                     sections={DATA}
                     renderItem={({item}) => {
-                        return <Text style={{fontSize: 18}}><MaterialCommunityIcons size={18} name="checkbox-blank-outline" /> {item}</Text>
+                        return <Text style={{fontSize: 18}}><MaterialCommunityIcons size={18} name="checkbox-blank-outline" /> {item.measure} {item.name}</Text>
                     }}
                     renderSectionHeader={({section: {title}}) => {
                         return <Text style={styles.heading}>{title}</Text>

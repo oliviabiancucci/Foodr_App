@@ -10,12 +10,16 @@ class SavedRecipes {
   // addFavorite(name, image , speed, price) {
   //   this.saved.push({name: name, image: image, speed: speed, price: price});
   // }
-  addFavorite(mealID) {
-    this.saved.push(mealID);
+  addFavorite(meal) {
+    this.saved.push(meal);
+  }
+
+  getFavoriteById(mealId) {
+    return this.saved.find(meal => meal.id == mealId)
   }
 
   removeFavorite(mealID) {
-    
+
   }
 
 }

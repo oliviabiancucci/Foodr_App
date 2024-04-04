@@ -8,7 +8,7 @@ import recipeStore from "../SavedRecipes";
 const CookBook = observer(() => {
     const favList = recipeStore.saved.map((item, index) => (
         <Link key={(index + 1) * 100}
-              href={{ pathname: "recipe/[id]", params: { id: index } }}
+              href={{ pathname: "recipe/[id]", params: { id: item.id } }}
               style={styles.row}>
             <SingleRecipeRow title={item.name} image={item.thumbnail} speed={"fast"} price={"cheap"} />
         </Link>
