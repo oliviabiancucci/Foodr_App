@@ -12,13 +12,13 @@ import { Link, useRouter } from "expo-router";
 
 import DateTimePicker from "react-native-modal-datetime-picker";
 import SingleRecipeRow from "app/SingleRecipeRow";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Checkbox, Button } from "app/components";
 
 import recipeStore from "app/SavedRecipes";
 import plannerStore from "app/PlannerStore";
 
 const Picker = () => {
-
     const router = useRouter();
 
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -32,10 +32,13 @@ const Picker = () => {
         setIsDatePickerVisible(false);
     };
     const confirmDate = (date) => {
-        const today = new Date()
-        today.setHours(0,0,0,0);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
         if (date < today) {
-            Alert.alert("Invalid Date", "Recipes must be planned for today and onwards");
+            Alert.alert(
+                "Invalid Date",
+                "Recipes must be planned for today and onwards"
+            );
         } else {
             setSelectedDate(date);
         }
@@ -43,19 +46,22 @@ const Picker = () => {
     };
 
     const addRecipe = (index) => {
-        const newSelectedRecipes = selectedRecipes.concat([index])
+        const newSelectedRecipes = selectedRecipes.concat([index]);
         setSelectedRecipes(newSelectedRecipes);
-    }
+    };
     const removeRecipe = (index) => {
-        const removeIndex = selectedRecipes.findIndex(v => v == index);
+        const removeIndex = selectedRecipes.findIndex((v) => v == index);
         setSelectedRecipes(selectedRecipes.splice(removeIndex, removeIndex));
-    }
+    };
     const handleSubmit = () => {
-        selectedDate.setHours(0,0,0,0);
+        selectedDate.setHours(0, 0, 0, 0);
 
-        selectedRecipes.forEach(recipeIndex => {
-            plannerStore.addRecipe(recipeStore.saved[recipeIndex], selectedDate);
-        })
+        selectedRecipes.forEach((recipeIndex) => {
+            plannerStore.addRecipe(
+                recipeStore.saved[recipeIndex],
+                selectedDate
+            );
+        });
 
         router.back();
     };
@@ -70,7 +76,13 @@ const Picker = () => {
             }}
             key={(index + 1) * 100}
         >
-            <Checkbox size={50} onCheck={() => addRecipe(index)} onUncheck={() => {removeRecipe(index)}} />
+            <Checkbox
+                size={50}
+                onCheck={() => addRecipe(index)}
+                onUncheck={() => {
+                    removeRecipe(index);
+                }}
+            />
             <Link
                 href={{ pathname: "recipe/[id]", params: { id: item.id } }}
                 style={styles.row}
@@ -87,15 +99,27 @@ const Picker = () => {
 
     return (
         <View style={styles.container}>
-            <Button
-                title={selectedDate.toLocaleDateString(undefined, {
-                    weekday: "long",
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                })}
+            <TouchableOpacity
+                style={{
+                    flexDirection: "row",
+                    minHeight: 50,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 30,
+                    margin: 20
+                }}
                 onPress={showDatePicker}
-            />
+            >
+                <MaterialCommunityIcons name="calendar" size={30} />
+                <Text style={{fontSize: 18, textDecorationLine: "underline"}}>
+                    {selectedDate.toLocaleDateString(undefined, {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                    })}
+                </Text>
+            </TouchableOpacity>
             <DateTimePicker
                 isVisible={isDatePickerVisible}
                 mode="date"
