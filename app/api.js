@@ -14,7 +14,16 @@ export const getMatch = async () => {
 
         console.log(response.data.meals[0]);
 
-        return response.data.meals[0];
+        const resJson = response.data.meals[0];
+        const mealJson = {
+            id: resJson.idMeal,
+            name: resJson.strMeal,
+            thumbnail: resJson.strMealThumb,
+            tags: resJson.strTags ? resJson.strTags.split(",") : [],
+
+        }
+
+        return mealJson
     } catch(error) {
         console.log(error);
     }

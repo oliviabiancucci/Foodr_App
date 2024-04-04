@@ -80,19 +80,19 @@ export default Main = inject('recipeStore')(observer(({ recipeStore }) => {
                               },
                           ]}
                       >
-                          <ImageBackground source={{ uri: recipe.strMealThumb }} style={[styles.image, { marginTop: -50 }]}>
+                          <ImageBackground source={{ uri: recipe.thumbnail }} style={[styles.image, { marginTop: -50 }]}>
                               <LinearGradient
                                   colors={["#00000000", "#000000"]}
                                   style={{ height: "100%", width: "100%", flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center', }}
                               >
                                   <View style={styles.overlay}>
-                                      <Text style={styles.recipeName}>{recipe.strMeal}</Text>
+                                      <Text style={styles.recipeName}>{recipe.name}</Text>
                                       {/* <Text style={styles.cookTime}>{recipe.cookTime} mins</Text> */}
                                       <Text style={styles.cookTime}>10 mins</Text>
                                       <View style={styles.tagsContainer}>
-                                          {/* {recipe.tags.map((tag, index) => (
+                                          {recipe.tags.map((tag, index) => (
                                               <Text key={index} style={[styles.tags, styles.tag]}>{tag}</Text>
-                                          ))} */}
+                                          ))}
                                       </View>
                                   </View>
                               </LinearGradient>
