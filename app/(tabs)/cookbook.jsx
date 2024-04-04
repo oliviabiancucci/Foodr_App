@@ -10,7 +10,7 @@ const CookBook = observer(() => {
         <Link key={(index + 1) * 100}
               href={{ pathname: "recipe/[id]", params: { id: item.id } }}
               style={styles.row}>
-            <SingleRecipeRow title={item.name} image={item.thumbnail} speed={"fast"} price={"cheap"} />
+            <SingleRecipeRow title={item.name} image={item.thumbnail} speed={"fast"} price={"cheap"} id={item.id} />
         </Link>
     ));
 

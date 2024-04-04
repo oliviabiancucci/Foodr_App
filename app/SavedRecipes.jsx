@@ -18,8 +18,8 @@ class SavedRecipes {
     return this.saved.find(meal => meal.id == mealId)
   }
 
-  removeFavorite(mealID) {
-
+  removeFavourite(mealId) {
+    this.saved = this.saved.filter(meal => meal.id !== mealId);
   }
 
 }
