@@ -26,6 +26,13 @@ export default Layout = () => {
                     presentation: "modal",
                 }}
             />
+            <Stack.Screen
+                name="(modals)/recipe/picker"
+                options={{
+                    title: "Select Recipes",
+                    presentation: "modal",
+                }}
+            />
         </Stack>
     );
 };

@@ -9,6 +9,19 @@ export default Layout = () => {
             backBehavior="history"
             screenOptions={{ tabBarActiveTintColor: "#EB6F6F" }}
         >
+            <Tabs.Screen 
+                name="planner"
+                options={{
+                    title: "Planner",
+                    tabBarIcon: ({ color }) => (
+                        <MaterialCommunityIcons
+                            size={28}
+                            name="calendar"
+                            color={color}
+                        />
+                    ),
+                }}
+            />
             <Tabs.Screen
                 name="index"
                 options={{

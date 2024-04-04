@@ -1,0 +1,154 @@
+import { useState } from "react";
+import {
+    View,
+    Text,
+    ScrollView,
+    StyleSheet,
+    Alert,
+    TouchableOpacity,
+} from "react-native";
+
+import { Link, useRouter } from "expo-router";
+
+import DateTimePicker from "react-native-modal-datetime-picker";
+import SingleRecipeRow from "app/SingleRecipeRow";
+import { Checkbox, Button } from "app/components";
+
+import recipeStore from "app/SavedRecipes";
+import plannerStore from "app/PlannerStore";
+
+const Picker = () => {
+
+    const router = useRouter();
+
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
+    const [selectedRecipes, setSelectedRecipes] = useState([]);
+
+    const showDatePicker = () => {
+        setIsDatePickerVisible(true);
+    };
+    const hideDatePicker = () => {
+        setIsDatePickerVisible(false);
+    };
+    const confirmDate = (date) => {
+        const today = new Date()
+        today.setHours(0,0,0,0);
+        if (date < today) {
+            Alert.alert("Invalid Date", "Recipes must be planned for today and onwards");
+        } else {
+            setSelectedDate(date);
+        }
+        hideDatePicker();
+    };
+
+    const addRecipe = (index) => {
+        const newSelectedRecipes = selectedRecipes.concat([index])
+        setSelectedRecipes(newSelectedRecipes);
+    }
+    const removeRecipe = (index) => {
+        const removeIndex = selectedRecipes.findIndex(v => v == index);
+        setSelectedRecipes(selectedRecipes.splice(removeIndex, removeIndex));
+    }
+    const handleSubmit = () => {
+        selectedDate.setHours(0,0,0,0);
+
+        selectedRecipes.forEach(recipeIndex => {
+            plannerStore.addRecipe(recipeStore.saved[recipeIndex], selectedDate);
+        })
+
+        router.back();
+    };
+
+    const favList = recipeStore.saved.map((item, index) => (
+        <View
+            style={{
+                justifyContent: "space-between",
+                flexDirection: "row",
+                flex: 1,
+                alignItems: "center",
+            }}
+            key={(index + 1) * 100}
+        >
+            <Checkbox size={50} onCheck={() => addRecipe(index)} onUncheck={() => {removeRecipe(index)}} />
+            <Link
+                href={{ pathname: "recipe/[id]", params: { id: item.id } }}
+                style={styles.row}
+            >
+                <SingleRecipeRow
+                    title={item.name}
+                    image={item.thumbnail}
+                    speed={"fast"}
+                    price={"cheap"}
+                />
+            </Link>
+        </View>
+    ));
+
+    return (
+        <View style={styles.container}>
+            <Button
+                title={selectedDate.toLocaleDateString(undefined, {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                })}
+                onPress={showDatePicker}
+            />
+            <DateTimePicker
+                isVisible={isDatePickerVisible}
+                mode="date"
+                date={selectedDate}
+                onConfirm={confirmDate}
+                onCancel={hideDatePicker}
+            />
+            <ScrollView contentContainerStyle={styles.scrollViewContent}>
+                {favList.length === 0 ? (
+                    <View style={styles.noRecipesContainer}>
+                        <Text style={styles.noRecipesText}>
+                            No saved recipes yet! Start swiping to save recipes.
+                        </Text>
+                    </View>
+                ) : (
+                    favList
+                )}
+            </ScrollView>
+            <Button
+                title="Plan Recipes"
+                onPress={handleSubmit}
+                disabled={selectedRecipes.length == 0}
+            />
+        </View>
+    );
+};
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    scrollViewContent: {
+        flexGrow: 1,
+        paddingVertical: 20,
+    },
+    row: {
+        flexDirection: "row",
+        backgroundColor: "lightgray",
+        marginHorizontal: 20,
+        marginBottom: 20,
+        borderRadius: 10,
+        overflow: "hidden",
+    },
+    noRecipesContainer: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 25,
+    },
+    noRecipesText: {
+        fontSize: 20,
+        textAlign: "center",
+    },
+});
+
+export default Picker;

@@ -5,8 +5,11 @@ const primaryColor = 'blue'
 export default styles = StyleSheet.create({
     container: {
         backgroundColor: 'white',
-        width: '100%',
-        height: '100%',
+        display: "flex",
+        flex: 1,
+        flexDirection: "column",
+        // width: '100%',
+        // height: '100%',
         padding: 10
     },
     title: {
