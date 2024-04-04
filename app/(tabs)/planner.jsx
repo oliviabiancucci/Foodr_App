@@ -23,6 +23,7 @@ const PlannerBlock = ({ title, plan }) => {
                         key={index}
                         title={recipe.name}
                         image={recipe.thumbnail}
+                        tags={recipe.tags}
                     />
                 ))
             )}

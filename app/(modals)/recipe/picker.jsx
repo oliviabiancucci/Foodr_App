@@ -90,8 +90,7 @@ const Picker = () => {
                 <SingleRecipeRow
                     title={item.name}
                     image={item.thumbnail}
-                    speed={"fast"}
-                    price={"cheap"}
+                    tags={item.tags}
                 />
             </Link>
         </View>
