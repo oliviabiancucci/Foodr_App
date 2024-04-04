@@ -1,6 +1,6 @@
-import axios from "axios"
+import axios from "axios";
 
-const API_URL = "https://www.themealdb.com/api/json/v1/1/"
+const API_URL = "https://www.themealdb.com/api/json/v1/1/";
 
 export const getMatch = async () => {
     const url = API_URL + "random.php";
@@ -26,15 +26,16 @@ export const getMatch = async () => {
             tags: resJson.strTags ? resJson.strTags.split(",") : [],
             ingredients: ingredientNames.map((name, index) => {
                 return {name: resJson[name], measure: resJson[ingredientMeasures[index]]}
-            })
-        }
+            }),
+            instructions: resJson.strInstructions
+        };
 
         console.log(mealJson);
 
-        return mealJson
+        return mealJson;
     } catch(error) {
         console.log(error);
     }
 
     return null;
-}
+};

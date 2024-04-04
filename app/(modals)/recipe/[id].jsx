@@ -1,3 +1,4 @@
+import React from "react";
 import { Image, Text, View, Button, Pressable, FlatList, SectionList, SafeAreaView } from "react-native";
 import styles from "../../styles";
 import { useLocalSearchParams, useRouter, Stack } from "expo-router";
@@ -18,17 +19,19 @@ const SplashImage = ({ recipe }) => {
                 colors={["#00000000", "#000000"]}
                 style={{ height: "100%", width: "100%", flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center' }}
             >
-                <Text style={{color: 'white', fontSize: 50, fontStyle: 'italic'}}>{recipe.name}</Text>
+                <Text style={{color: 'white', fontSize: 50, fontWeight: "bold"}}>{recipe.name}</Text>
             </LinearGradient>
         </ImageBackground>
     );
 };
 
-export default Page = () => {
+const Page = () => {
     const { id } = useLocalSearchParams();
     const recipe = recipeStore.getFavoriteById(id);
 
     const router = useRouter();
+
+    const instructionsArray = recipe.instructions.split("\n");
 
     const DATA = [
         {
@@ -37,10 +40,9 @@ export default Page = () => {
         },
         {
             title: 'Directions',
-            // data: recipe.directions
-            data: []
+            data: instructionsArray
         }
-    ]
+    ];
 
     return (
         <>
@@ -50,35 +52,29 @@ export default Page = () => {
                 }}
             />
             <SplashImage recipe={recipe} />
-            {/* <View style={{width: "100%", height: 300}}>
-                <ProfileImage recipe={recipe} />
-            </View> */}
             <SafeAreaView style={styles.container}>
                 <SectionList 
                     sections={DATA}
-                    renderItem={({item}) => {
-                        return <Text style={{fontSize: 18}}><MaterialCommunityIcons size={18} name="checkbox-blank-outline" /> {item.measure} {item.name}</Text>
+                    renderItem={({item, section}) => {
+                        // Ingredients
+                        if (section.title === 'Ingredients') {
+                            return (
+                                <Text style={{fontSize: 18, padding: 10}}>
+                                    <MaterialCommunityIcons size={18} name="checkbox-blank-outline" /> 
+                                    {item.measure} {item.name}
+                                </Text>
+                            );
+                        } else { // Directions
+                            return <Text style={{fontSize: 18, padding: 10}}>{item}</Text>; // Added padding here
+                        }
                     }}
                     renderSectionHeader={({section: {title}}) => {
-                        return <Text style={styles.heading}>{title}</Text>
+                        return <Text style={[styles.heading, {marginTop: 10, marginBottom: 10, fontWeight: 'bold', paddingLeft: 10}]}>{title}</Text>;
                     }}
                 />
-                {/* <FlatList 
-                    data={recipe.ingredients}
-                    renderItem={({item, index}) => {
-                        return <Text style={{fontSize: 18}}><MaterialCommunityIcons size={18} name="checkbox-blank-outline" /> {item}</Text>
-                    }}
-                    keyExtractor={(index) => index}
-                />
-                <Text style={styles.heading}>Directions</Text>
-                <FlatList 
-                    data={recipe.directions}
-                    renderItem={({item, index}) => {
-                        return <Text style={{fontSize: 18}}><MaterialCommunityIcons size={18} name="checkbox-blank-outline" /> {item}</Text>
-                    }}
-                    keyExtractor={(index) => index}
-                /> */}
             </SafeAreaView>
         </>
     );
 };
+
+export default Page;
