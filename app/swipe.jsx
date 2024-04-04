@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { StyleSheet, View, ImageBackground, TouchableOpacity, Text, FlatList, Animated, Easing } from 'react-native';
+import { StyleSheet, View, ScrollView, ImageBackground, TouchableOpacity, Text, FlatList, Animated, Easing } from 'react-native';
 import { recipes as data } from './recipe_list.json';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -10,6 +10,20 @@ import { getMatch } from './api';
 
 export default Main = inject('recipeStore')(observer(({ recipeStore }) => {
     const [savedRecipes, setSavedRecipes] = useState([]);
+    // Use this state to control the visibility and content of the overlay
+    const [selectedRecipe, setSelectedRecipe] = useState(null);
+    const [showDetails, setShowDetails] = useState(false);
+
+    // This function toggles the overlay
+    const toggleDetails = (recipe = null) => {
+        setSelectedRecipe(recipe); // Set the selected recipe, or pass null to hide
+        setShowDetails(recipe !== null); // Show or hide the overlay based on whether a recipe is passed
+    };
+    const openRecipeDetails = (recipe) => {
+        setSelectedRecipe(recipe); // Set the selected recipe's details
+        setShowDetails(true); // Show the overlay
+      };
+
     // const [currentRecipeIndex, setCurrentRecipeIndex] = useState(0);
     // const recipe = data[currentRecipeIndex];
     const swipeAnim = useRef(new Animated.Value(0)).current;
@@ -46,7 +60,7 @@ export default Main = inject('recipeStore')(observer(({ recipeStore }) => {
     //   setCurrentRecipeIndex((prevIndex) => (prevIndex + 1) % data.length);
 
         recipeStore.addFavorite(recipe);
-
+        toggleDetails(null);
         getMatch().then(newMatch => {
             setRecipe(newMatch);
         })
@@ -80,6 +94,7 @@ export default Main = inject('recipeStore')(observer(({ recipeStore }) => {
                               },
                           ]}
                       >
+                        <TouchableOpacity onPress={() => openRecipeDetails(recipe)}>
                           <ImageBackground source={{ uri: recipe.thumbnail }} style={[styles.image, { marginTop: -50 }]}>
                               <LinearGradient
                                   colors={["#00000000", "#000000"]}
@@ -97,6 +112,7 @@ export default Main = inject('recipeStore')(observer(({ recipeStore }) => {
                                   </View>
                               </LinearGradient>
                           </ImageBackground>
+                          </TouchableOpacity>
                       </Animated.View>
                       <FlatList />
                       <View style={styles.iconContainer}>
@@ -114,6 +130,23 @@ export default Main = inject('recipeStore')(observer(({ recipeStore }) => {
                   </View>
               )}
           </View>
+          {
+        showDetails && selectedRecipe && (
+        
+                <FlatList
+                    style={
+                        styles.detailsOverlay
+                    }
+                        data={recipe.ingredients}
+                        renderItem={({item, index}) => <Text style={styles.detailText}>{index + 1}. {item.name}</Text>}
+                        keyExtractor={item => item.name}
+                        horizontal={false}
+                        ListHeaderComponent={<Text style={styles.detailTextTitle}>Ingredients:</Text>}
+                    />
+            
+    )
+}
+
       </SwipeGesture>
   );
 }));
@@ -134,7 +167,7 @@ const styles = StyleSheet.create({
     },
     image: {
         width: '100%',
-        height: '100%',
+        height: '95%',
         borderRadius: 10,
     },
     overlay: {
@@ -200,4 +233,26 @@ const styles = StyleSheet.create({
         backgroundColor: '#EB6F6F',
         borderRadius: 30,
     },
+    detailsOverlay: {
+        position: 'absolute',
+        top: '70%', // Adjust positioning based on your design
+        width: '95%',
+        left: '2.5%',
+        height: 70,
+        backgroundColor: '#EB6F6F',
+        padding: 10,
+        paddingTop: 5,
+        borderRadius: 10,
+        zIndex: 100, // Make sure it's above other content
+      },
+      detailTextTitle:{
+        color: '#FFFFFF',
+        fontSize: 20,
+        fontWeight: 'bold',
+      },
+      detailText: {
+        color: '#FFFFFF',
+
+    },
+
 });
