@@ -71,8 +71,10 @@ const Picker = () => {
             style={{
                 justifyContent: "space-between",
                 flexDirection: "row",
-                flex: 1,
                 alignItems: "center",
+                marginBottom: 20,
+                borderRadius: 10,
+                overflow: "hidden",
             }}
             key={(index + 1) * 100}
         >
@@ -87,14 +89,14 @@ const Picker = () => {
                 href={{ pathname: "recipe/[id]", params: { id: item.id } }}
                 style={styles.row}
             >
-            
-                <SingleRecipeRow
-                    title={item.name}
-                    image={item.thumbnail}
-                    tags={item.tags}
-                    id={item.id}
-                />
-                
+                <View style={styles.recipeContainer}>
+                    <SingleRecipeRow
+                        title={item.name}
+                        image={item.thumbnail}
+                        tags={item.tags}
+                        id={item.id}
+                    />
+                </View>
             </Link>
         </View>
     ));
@@ -154,14 +156,16 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     scrollViewContent: {
-        flexGrow: 1,
-        paddingVertical: 20,
+        paddingVertical: 10,
     },
     row: {
         flexDirection: "row",
         backgroundColor: "lightgray",
-        marginHorizontal: 20,
-        marginBottom: 20,
+    },
+    recipeContainer: {
+        flex: 1,
+        padding: 5,
+        marginHorizontal: 55,
         borderRadius: 10,
         overflow: "hidden",
     },
