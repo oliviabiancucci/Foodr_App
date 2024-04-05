@@ -1,7 +1,7 @@
 import React from "react";
 import { TouchableOpacity, View, Text, ScrollView, StyleSheet } from "react-native";
 import { FloatingButton } from "app/components";
-import { useRouter } from "expo-router";
+import { useRouter , Link} from "expo-router";
 import { observer } from "mobx-react";
 import SingleRecipeRow from "app/SingleRecipeRow";
 import recipeStore from "../SavedRecipes";
@@ -19,6 +19,7 @@ const PlannerBlock = ({ title, plan }) => {
             ) : (
                 recipes.map((recipe, index) => (
                     <View key={index}>
+                        <Link href={{ pathname: "recipe/[id]", params: { id: recipe.id } }}>
                         <SingleRecipeRow
                             title={recipe.name}
                             image={recipe.thumbnail}
@@ -28,6 +29,7 @@ const PlannerBlock = ({ title, plan }) => {
                         {/* <TouchableOpacity onPress={() => removeRecipe(recipe.id)} style={styles.removeButton}>
                             <FontAwesome name="times-circle" size={24} color="#EB6F6F" />
                         </TouchableOpacity> */}
+                        </Link>
                     </View>
                 ))
             )}
@@ -58,7 +60,8 @@ const Planner = observer(() => {
                     <PlannerBlock title="Today" plan={todayPlan[0]}/>
                     <PlannerBlock title="Tomorrow" plan={tmrwPlan[0]} />
                     {futurePlan.map((p, idx) => {
-                        return <PlannerBlock
+                        return 
+                            <PlannerBlock
                             key={idx}
                             title={p.date.toLocaleDateString(undefined, {
                                 weekday: "long",
