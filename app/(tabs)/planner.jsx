@@ -1,15 +1,24 @@
 import React from "react";
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { FloatingButton } from "app/components";
 import { useRouter, Link } from "expo-router";
 import { observer } from "mobx-react";
 import SingleRecipeRow from "app/SingleRecipeRow";
 import recipeStore from "../SavedRecipes";
 import plannerStore from "app/PlannerStore";
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome } from "@expo/vector-icons";
 
 const PlannerBlock = observer(({ title, plan }) => {
     const recipes = plan ? plan.recipes : [];
+
+    const promptRemove = (index, name) => {
+        Alert.alert("Remove Recipe", `Are you sure you want to remove ${name}?`, [{text: "Remove", onPress: () => {handleRemove(index)}}, {text: "Cancel", onPress: ()=>{}}])
+    }
+
+    const handleRemove = (index) => {
+        // plan.recipes = plan.recipes.splice(index, index);
+        plannerStore.removeRecipeByIndex(plan, index)
+    }
 
     return (
         <View style={{ marginBottom: 50 }}>
@@ -18,8 +27,13 @@ const PlannerBlock = observer(({ title, plan }) => {
                 <Text>No recipes planned</Text>
             ) : (
                 recipes.map((recipe, index) => (
-                    <View key={index}>
-                        <Link href={{ pathname: "recipe/[id]", params: { id: recipe.id } }}>
+                    <View key={index} style={{flexDirection: "row", flex: 1}}>
+                        <Link
+                            href={{
+                                pathname: "recipe/[id]",
+                                params: { id: recipe.id },
+                            }}
+                        >
                             <SingleRecipeRow
                                 title={recipe.name}
                                 image={recipe.thumbnail}
@@ -27,6 +41,15 @@ const PlannerBlock = observer(({ title, plan }) => {
                                 id={recipe.id}
                             />
                         </Link>
+                        <TouchableOpacity style={{margin: 10, alignSelf: "center"}}
+                            onPress={() => promptRemove(index, recipe.name)}
+                        >
+                            <FontAwesome
+                                name="times-circle"
+                                size={40}
+                                color="#EB6F6F"
+                            />
+                        </TouchableOpacity>
                     </View>
                 ))
             )}

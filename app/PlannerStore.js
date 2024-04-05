@@ -13,6 +13,10 @@ class PlannerStore {
         })
     }
 
+    removeRecipeByIndex(plan, index) {
+        plan.recipes = plan.recipes.splice(index, index)
+    }
+
     addRecipe(recipe, date) {
         plannedDay = this.plan.find(
             (p) =>

@@ -69,17 +69,20 @@ const Picker = () => {
     const favList = recipeStore.saved.map((item, index, handleRemove) => (
         <View
             style={{
-                justifyContent: "space-between",
+                // justifyContent: "space-between",
+                gap: 10,
                 flexDirection: "row",
                 alignItems: "center",
+                justifyContent: "center",
                 marginBottom: 20,
+                marginHorizontal: 10,
                 borderRadius: 10,
                 overflow: "hidden",
             }}
             key={(index + 1) * 100}
         >
             <Checkbox
-                size={30}
+                size={50}
                 onCheck={() => addRecipe(index)}
                 onUncheck={() => {
                     removeRecipe(index);
@@ -160,7 +163,7 @@ const styles = StyleSheet.create({
     },
     row: {
         flexDirection: "row",
-        backgroundColor: "lightgray",
+        // backgroundColor: "lightgray",
     },
     recipeContainer: {
         flex: 1,

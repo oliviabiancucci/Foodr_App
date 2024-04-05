@@ -11,7 +11,7 @@ import { FontAwesome } from '@expo/vector-icons';
 const CookBook = observer(() => {
 
     const promptUnmatch = (id, name) => {
-        Alert.alert("Unmatch", `Are you sure you want to unmatch with ${name}`, [{text: "Unmatch", onPress: () => {handleRemove(id)}}, {text: "Cancel", onPress: ()=>{}}])
+        Alert.alert("Unmatch", `Are you sure you want to unmatch with ${name}?`, [{text: "Unmatch", onPress: () => {handleRemove(id)}}, {text: "Cancel", onPress: ()=>{}}])
     }
 
     const handleRemove = (id) => {
