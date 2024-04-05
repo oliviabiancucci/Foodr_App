@@ -14,13 +14,16 @@ export default Main = inject('recipeStore')(observer(({ recipeStore }) => {
     const [showDetails, setShowDetails] = useState(false);
 
     const toggleDetails = (recipe = null) => {
-        setSelectedRecipe(recipe);
-        setShowDetails(recipe !== null);
+        setSelectedRecipe(recipe); 
+        setShowDetails(recipe !== null); 
     };
     const openRecipeDetails = (recipe) => {
-        setSelectedRecipe(recipe);
-        setShowDetails(true);
-      };
+        setSelectedRecipe(recipe); 
+        setShowDetails(true); 
+    };
+    const closeDetails = () => {
+        setShowDetails(false);
+    };
 
     // const [currentRecipeIndex, setCurrentRecipeIndex] = useState(0);
     // const recipe = data[currentRecipeIndex];
@@ -129,21 +132,22 @@ export default Main = inject('recipeStore')(observer(({ recipeStore }) => {
               )}
           </View>
           {
-        showDetails && selectedRecipe && (
-        
-                <FlatList
-                    style={
-                        styles.detailsOverlay
-                    }
-                        data={recipe.ingredients}
-                        renderItem={({item, index}) => <Text style={styles.detailText}>{index + 1}. {item.name}</Text>}
-                        keyExtractor={item => item.name}
-                        horizontal={false}
-                        ListHeaderComponent={<Text style={styles.detailTextTitle}>Ingredients:</Text>}
-                    />
-            
-    )
-}
+                showDetails && selectedRecipe && (
+                    <View style={styles.detailsOverlay}>
+                        <TouchableOpacity style={styles.closeButton} onPress={closeDetails}>
+                            <AntDesign name="close" size={24} color="#FFFFFF" />
+                        </TouchableOpacity>
+                        <Text style={styles.detailTextTitle}>Ingredients:</Text>
+                        <FlatList
+                            data={selectedRecipe.ingredients}
+                            renderItem={({item, index}) => <Text style={styles.detailText}>{index + 1}. {item.name}</Text>}
+                            keyExtractor={(item, index) => index.toString()}
+                            contentContainerStyle={{ flexGrow: 1 }}
+                            ListFooterComponent={<View style={{ flex: 1 }} />}
+                        />
+                    </View>
+                )
+            }
 
       </SwipeGesture>
   );
@@ -165,7 +169,7 @@ const styles = StyleSheet.create({
     },
     image: {
         width: '100%',
-        height: '95%',
+        height: '100%',
         borderRadius: 10,
     },
     overlay: {
@@ -209,6 +213,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         padding: 25,
+        paddingBottom: 70
     },
     icon: {
         marginHorizontal: 20,
@@ -233,24 +238,28 @@ const styles = StyleSheet.create({
     },
     detailsOverlay: {
         position: 'absolute',
-        top: '70%',
-        width: '95%',
-        left: '2.5%',
-        height: 70,
-        backgroundColor: '#EB6F6F',
-        padding: 10,
-        paddingTop: 5,
-        borderRadius: 10,
-        zIndex: 100,
-      },
-      detailTextTitle:{
-        color: '#FFFFFF',
-        fontSize: 20,
-        fontWeight: 'bold',
-      },
-      detailText: {
-        color: '#FFFFFF',
-
+        bottom: 0,
+        width: '100%',
+        backgroundColor: 'black',
+        paddingVertical: 20,
+        paddingHorizontal: 20,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
     },
-
+    detailTextTitle: {
+        color: 'white',
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 10,
+    },
+    detailText: {
+        color: '#FFFFFF',
+        fontSize: 18,
+        marginBottom: 5,
+    },
+    closeButton: {
+        position: 'absolute',
+        top: 10,
+        right: 10,
+    },
 });

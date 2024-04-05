@@ -30,7 +30,7 @@ export const getMatch = async () => {
             instructions: resJson.strInstructions
         };
 
-        console.log(mealJson);
+        //console.log(mealJson);
 
         return mealJson;
     } catch(error) {
