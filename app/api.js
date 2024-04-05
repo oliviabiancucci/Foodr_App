@@ -1,9 +1,16 @@
 import axios from "axios";
+import filterStore from "./FilterStore";
 
 const API_URL = "https://www.themealdb.com/api/json/v1/1/";
 
 export const getMatch = async () => {
-    const url = API_URL + "random.php";
+    
+    let url = API_URL + "random.php";
+    const currentFilters = filterStore.getFilters()
+    if(currentFilters.length != 0){
+        console.log('filters applied');
+        url = API_URL + "filter.php?c=" + currentFilters[0];
+    }
 
     try {
         const response = await axios.get(url);
@@ -13,9 +20,19 @@ export const getMatch = async () => {
         // const mealJson = JSON.parse(response.data);
 
         // console.log(response.data.meals[0]);
-
-        const resJson = response.data.meals[0];
-
+        let resJson;
+        //console.log(response.data.meals[0]);
+        if(currentFilters.length== 0){
+            resJson = response.data.meals[0];
+        }
+        else{
+            console.log(response.data.meals[0]);
+            let index = Math.floor(Math.random() * response.data.meals.length);
+            resJson = response.data.meals[index];
+            url = API_URL + "lookup.php?i=" + resJson.idMeal;
+            const response2 = await axios.get(url);
+            resJson = response2.data.meals[0];
+        }
         const ingredientNames = Object.keys(resJson).filter(v => /^strIngredient/.test(v) && resJson[v] && resJson[v].trim() != "");
         const ingredientMeasures = Object.keys(resJson).filter(v => /^strMeasure/.test(v) && resJson[v] && resJson[v].trim() != "");
 

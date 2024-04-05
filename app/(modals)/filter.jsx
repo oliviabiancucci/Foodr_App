@@ -2,7 +2,7 @@ import { Button, Pressable, SafeAreaView, SectionList, StyleSheet, Text, View } 
 import styles from "app/styles";
 import { useState } from "react";
 import { useRouter } from "expo-router";
-
+import filterStore from "app/FilterStore";
 const ToggleSwitch = ({title}) => {
     const [isPressed, setPressed] = useState(true);
 
@@ -10,9 +10,19 @@ const ToggleSwitch = ({title}) => {
         color: "white",
         borderColor: isPressed ? "#EB6F6F" : "#AFAFAF",
     })
-
+    const handlePres = () => {
+        if(isPressed){
+            filterStore.addFilter(title);
+        }
+        else{
+            filterStore.removeFavourite(title);
+        }
+        
+        console.log(filterStore.getFilters());
+        setPressed(!isPressed)
+    };
     return (
-        <Pressable onPress={() => {setPressed(!isPressed)}}>
+        <Pressable onPress={handlePres}>
             <View style={[colorStyles, {
                 borderWidth: 2,
                 borderRadius: 30,
@@ -33,21 +43,21 @@ export default Page = () => {
 
     const DATA = [
         {
-            title: 'Cost',
+            title: 'Course',
             data: [
-                'Cheap', 'Expensive'
+                'Breakfast', 'Starter','Dessert'
             ]
         },
         {
             title: 'Dietary',
             data: [
-                'Vegetarian', 'Meat'
+                'Vegetarian', 'Vegan'
             ]
         },
         {
-            title: 'Difficulty',
+            title: 'Type',
             data: [
-                'Easy'
+                'Seafood', 'Pasta', 'Beef'
             ]
         }
     ]

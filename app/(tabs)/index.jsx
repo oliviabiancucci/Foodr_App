@@ -4,18 +4,21 @@ import RecipeStore from "../SavedRecipes";
 import Swipe from "../swipe";
 import { Stack, useRouter } from "expo-router";
 import { Pressable } from "react-native";
-
+import filterStore from "app/FilterStore";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const App = () => {
     const router = useRouter();
-
+    const handlePress = () => {
+        filterStore.clearFilters();
+        router.navigate("/filter");
+    }
     return (
         <Provider recipeStore={RecipeStore}>
             <Stack.Screen
                 options={{
                     headerRight: () => (
-                        <Pressable onPress={() => router.navigate("/filter")}>
+                        <Pressable onPress={handlePress }>
                             <MaterialCommunityIcons
                                 name="filter-variant"
                                 size={35}
