@@ -1,14 +1,21 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity} from "react-native";
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert} from "react-native";
 import SingleRecipeRow from "../SingleRecipeRow";
 import { Link } from "expo-router";
 import { observer } from 'mobx-react';
 import recipeStore from "../SavedRecipes";
+import plannerStore from 'app/PlannerStore';
 import { FontAwesome } from '@expo/vector-icons';
 
 
 const CookBook = observer(() => {
+
+    const promptUnmatch = (id, name) => {
+        Alert.alert("Unmatch", `Are you sure you want to unmatch with ${name}`, [{text: "Unmatch", onPress: () => {handleRemove(id)}}, {text: "Cancel", onPress: ()=>{}}])
+    }
+
     const handleRemove = (id) => {
+        plannerStore.removeRecipeById(id);
         recipeStore.removeFavourite(id);
     };
 
@@ -19,8 +26,8 @@ const CookBook = observer(() => {
                 style={styles.row}>
                 <SingleRecipeRow title={item.name} image={item.thumbnail} tags={item.tags} id={item.id} />
             </Link>
-            <TouchableOpacity onPress={() => handleRemove(item.id)} style={styles.removeButton}>
-                <FontAwesome name="times-circle" size={24} color="#EB6F6F" />
+            <TouchableOpacity onPress={() => promptUnmatch(item.id, item.name)} style={styles.removeButton}>
+                <FontAwesome name="times-circle" size={40} color="#EB6F6F" />
             </TouchableOpacity>
         </View>
     ));
@@ -50,7 +57,7 @@ const styles = StyleSheet.create({
     },
     recipeContainer: {
         flexDirection: 'row',
-        backgroundColor: 'lightgray',
+        // backgroundColor: 'lightgray',
         marginHorizontal: 20,
         marginBottom: 20,
         borderRadius: 10,
@@ -71,9 +78,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     removeButton: {
-        alignSelf: 'flex-start',
-        marginTop: 5,
-        marginRight: 5,
+        alignSelf: 'center',
+        margin: 10
     },
 });
 

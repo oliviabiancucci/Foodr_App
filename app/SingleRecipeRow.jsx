@@ -25,11 +25,11 @@ const styles = StyleSheet.create({
     im: {
         width: 75,
         height: 75,
-        marginTop: 15,
-        marginLeft: 15,
+        margin: 15
     },
     row: {
         flexDirection: 'row',
+        alignItems: "center"
     },
     column: {
         flexDirection: 'column',

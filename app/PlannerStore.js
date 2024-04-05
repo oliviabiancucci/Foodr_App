@@ -7,6 +7,12 @@ class PlannerStore {
         makeAutoObservable(this);
     }
 
+    removeRecipeById(id) {
+        this.plan.forEach(p => {
+            p.recipes = p.recipes.filter(recipe => recipe.id != id);
+        })
+    }
+
     addRecipe(recipe, date) {
         plannedDay = this.plan.find(
             (p) =>

@@ -8,7 +8,7 @@ import recipeStore from "../SavedRecipes";
 import plannerStore from "app/PlannerStore";
 import { FontAwesome } from '@expo/vector-icons';
 
-const PlannerBlock = ({ title, plan }) => {
+const PlannerBlock = observer(({ title, plan }) => {
     const recipes = plan ? plan.recipes : [];
 
     return (
@@ -32,7 +32,7 @@ const PlannerBlock = ({ title, plan }) => {
             )}
         </View>
     );
-};
+});
 
 const Planner = observer(() => {
     const router = useRouter();
