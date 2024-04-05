@@ -3,15 +3,8 @@ import filterStore from "./FilterStore";
 
 const API_URL = "https://www.themealdb.com/api/json/v1/1/";
 
-export const getMatch = async () => {
-    
-    let url = API_URL + "random.php";
-    const currentFilters = filterStore.getFilters()
-    if(currentFilters.length != 0){
-        console.log('filters applied');
-        url = API_URL + "filter.php?c=" + currentFilters[0];
-    }
-
+let prefetchedRecipe = null;
+async function getRecipe(url){
     try {
         const response = await axios.get(url);
 
@@ -22,6 +15,7 @@ export const getMatch = async () => {
         // console.log(response.data.meals[0]);
         let resJson;
         //console.log(response.data.meals[0]);
+        const currentFilters = filterStore.getFilters();
         if(currentFilters.length== 0){
             resJson = response.data.meals[0];
         }
@@ -55,4 +49,36 @@ export const getMatch = async () => {
     }
 
     return null;
+}
+async function prefetchRecipe(){
+    let url = API_URL + "random.php";
+    const currentFilters = filterStore.getFilters();
+    if(currentFilters.length != 0){
+        console.log('filters applied');
+        url = API_URL + "filter.php?c=" + currentFilters[0];
+    }
+    try {
+        prefetchedRecipe = await getRecipe(url);
+        console.log('Recipe prefetched successfully');
+    } catch (error) {
+        console.error('Prefetching failed:', error);
+    }
+}
+export const getMatch = async () => {
+    if (prefetchedRecipe) {
+        console.log('Serving prefetched recipe');
+        const recipeToServe = prefetchedRecipe;
+        prefetchedRecipe = null; // Reset prefetch cache
+        prefetchRecipe().catch(console.error); // Prefetch next recipe
+        return recipeToServe;
+    } else {
+        console.log('Fetching recipe on demand');
+        // Fetch recipe immediately if no prefetched recipe is available
+        let url = API_URL + "random.php"; // Or based on filters
+        const recipe = await getRecipe(url);
+        prefetchRecipe().catch(console.error); // Start prefetching next recipe
+        return recipe;
+    }
+
+
 };
