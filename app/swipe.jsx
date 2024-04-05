@@ -68,6 +68,7 @@ export default Main = inject('recipeStore')(observer(({ recipeStore }) => {
   
     const handleXPress = () => {
     //   setCurrentRecipeIndex((prevIndex) => (prevIndex + 1) % data.length);
+        toggleDetails(null);
         getMatch().then(newMatch => {
             setRecipe(newMatch);
         })
@@ -139,7 +140,7 @@ export default Main = inject('recipeStore')(observer(({ recipeStore }) => {
                     }
                         data={recipe.ingredients}
                         renderItem={({item, index}) => <Text style={styles.detailText}>{index + 1}. {item.name}</Text>}
-                        keyExtractor={item => item.name}
+                        keyExtractor={(item, index) => index.toString()}
                         horizontal={false}
                         ListHeaderComponent={<Text style={styles.detailTextTitle}>Ingredients:</Text>}
                     />
