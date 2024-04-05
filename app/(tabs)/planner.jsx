@@ -1,7 +1,7 @@
 import React from "react";
-import { TouchableOpacity, View, Text, ScrollView, StyleSheet } from "react-native";
+import { View, Text, ScrollView, StyleSheet } from "react-native";
 import { FloatingButton } from "app/components";
-import { useRouter , Link} from "expo-router";
+import { useRouter, Link } from "expo-router";
 import { observer } from "mobx-react";
 import SingleRecipeRow from "app/SingleRecipeRow";
 import recipeStore from "../SavedRecipes";
@@ -20,15 +20,12 @@ const PlannerBlock = ({ title, plan }) => {
                 recipes.map((recipe, index) => (
                     <View key={index}>
                         <Link href={{ pathname: "recipe/[id]", params: { id: recipe.id } }}>
-                        <SingleRecipeRow
-                            title={recipe.name}
-                            image={recipe.thumbnail}
-                            tags={recipe.tags}
-                            id={recipe.id}
-                        />
-                        {/* <TouchableOpacity onPress={() => removeRecipe(recipe.id)} style={styles.removeButton}>
-                            <FontAwesome name="times-circle" size={24} color="#EB6F6F" />
-                        </TouchableOpacity> */}
+                            <SingleRecipeRow
+                                title={recipe.name}
+                                image={recipe.thumbnail}
+                                tags={recipe.tags}
+                                id={recipe.id}
+                            />
                         </Link>
                     </View>
                 ))
@@ -39,39 +36,38 @@ const PlannerBlock = ({ title, plan }) => {
 
 const Planner = observer(() => {
     const router = useRouter();
-
     const date = new Date();
-    const todayPlan = plannerStore.getPlansBetween(date, date);
+    const plans = [];
 
-    date.setDate(date.getDate() + 1);
-    const tmrwPlan = plannerStore.getPlansBetween(date, date);
-
-    date.setDate(date.getDate() + 1);
-    const futurePlan = plannerStore.getPlansBetween(date, null);
-
-    // const handleRemove = (recipeId) => {
-    //     plannerStore.removeRecipeFromPlan(recipeId);
-    // };
+    for (let i = 0; i < 7; i++) {
+        const currentDate = new Date(date);
+        currentDate.setDate(date.getDate() + i);
+        const plan = plannerStore.getPlansBetween(currentDate, currentDate);
+        plans.push({ date: currentDate, plan: plan[0] });
+    }
 
     return (
         <>
             <View style={styles.container}>
                 <ScrollView>
-                    <PlannerBlock title="Today" plan={todayPlan[0]}/>
-                    <PlannerBlock title="Tomorrow" plan={tmrwPlan[0]} />
-                    {futurePlan.map((p, idx) => {
-                        return 
+                    {plans.map((p, idx) => {
+                        let title = p.date.toLocaleDateString(undefined, {
+                            weekday: "long",
+                            month: "long",
+                            day: "numeric",
+                        });
+                        if (idx === 0) {
+                            title = "Today";
+                        } else if (idx === 1) {
+                            title = "Tomorrow";
+                        }
+                        return (
                             <PlannerBlock
-                            key={idx}
-                            title={p.date.toLocaleDateString(undefined, {
-                                weekday: "long",
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                            })}
-                            plan={p}
-                            handleRemove={handleRemove}
-                        />;
+                                key={idx}
+                                title={title}
+                                plan={p.plan}
+                            />
+                        );
                     })}
                 </ScrollView>
             </View>
@@ -93,6 +89,7 @@ const Planner = observer(() => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        padding: 15,
     },
 });
 
