@@ -27,7 +27,7 @@ const CookBook = observer(() => {
                 <SingleRecipeRow title={item.name} image={item.thumbnail} tags={item.tags} id={item.id} />
             </Link>
             <TouchableOpacity onPress={() => promptUnmatch(item.id, item.name)} style={styles.removeButton}>
-                <FontAwesome name="times-circle" size={40} color="#EB6F6F" />
+                <FontAwesome name="trash-o" size={40} color="#EB6F6F" />
             </TouchableOpacity>
         </View>
     ));
