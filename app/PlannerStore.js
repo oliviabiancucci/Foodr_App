@@ -14,7 +14,7 @@ class PlannerStore {
     }
 
     removeRecipeByIndex(plan, index) {
-        plan.recipes = plan.recipes.splice(index, index)
+        plan.recipes = plan.recipes.filter((recipe, idx) => index != idx)
     }
 
     addRecipe(recipe, date) {
