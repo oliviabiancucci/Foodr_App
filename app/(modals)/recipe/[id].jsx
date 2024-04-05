@@ -3,7 +3,7 @@ import { Image, Text, View, Button, Pressable, FlatList, SectionList, SafeAreaVi
 import styles from "../../styles";
 import { useLocalSearchParams, useRouter, Stack } from "expo-router";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
+import { FontAwesome } from '@expo/vector-icons';
 import { recipes as cookbook } from "../../recipe_list.json";
 
 import { ImageBackground } from "react-native";
@@ -60,7 +60,8 @@ const Page = () => {
                         if (section.title === 'Ingredients') {
                             return (
                                 <Text style={{fontSize: 18, padding: 10}}>
-                                    <MaterialCommunityIcons size={18} name="checkbox-blank-outline" /> 
+                                    <FontAwesome name="circle" size={18} color="black" /> <Text>    </Text>
+                                    {/* <MaterialCommunityIcons size={18} name="checkbox-blank-outline" />  */}
                                     {item.measure} {item.name}
                                 </Text>
                             );
