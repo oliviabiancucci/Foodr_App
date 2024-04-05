@@ -18,7 +18,7 @@ const App = () => {
             <Stack.Screen
                 options={{
                     headerRight: () => (
-                        <Pressable onPress={handlePress }>
+                        <Pressable style={{marginRight: 15}} onPress={handlePress }>
                             <MaterialCommunityIcons
                                 name="filter-variant"
                                 size={35}
