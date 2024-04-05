@@ -59,7 +59,7 @@ const Page = () => {
                         if (section.title === 'Ingredients') {
                             return (
                                 <Text style={{fontSize: 18, padding: 10}}>
-                                    <FontAwesome name="circle" size={18} color="black" /> <Text>    </Text>
+                                    <FontAwesome name="circle" size={8} color="black" /> <Text>    </Text>
                                     {/* <MaterialCommunityIcons size={18} name="checkbox-blank-outline" />  */}
                                     {item.measure} {item.name}
                                 </Text>

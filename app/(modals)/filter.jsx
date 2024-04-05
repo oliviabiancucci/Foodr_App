@@ -1,84 +1,140 @@
+import React, { useEffect, useState } from "react";
 import { Button, Pressable, SafeAreaView, SectionList, StyleSheet, Text, View } from "react-native";
 import styles from "app/styles";
-import { useState } from "react";
 import { useRouter } from "expo-router";
 import filterStore from "app/FilterStore";
-const ToggleSwitch = ({title}) => {
-    const [isPressed, setPressed] = useState(true);
 
-    const colorStyles = StyleSheet.create({
-        color: "white",
-        borderColor: isPressed ? "#EB6F6F" : "#AFAFAF",
-    })
-    const handlePres = () => {
-        if(isPressed){
-            filterStore.addFilter(title);
-        }
-        else{
-            filterStore.removeFavourite(title);
-        }
-        
-        console.log(filterStore.getFilters());
-        setPressed(!isPressed)
-    };
-    return (
-        <Pressable onPress={handlePres}>
-            <View style={[colorStyles, {
-                borderWidth: 2,
-                borderRadius: 30,
-                height: 50,
-                minWidth: 100,
-                margin: 10,
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: isPressed ? "#EB6F6F" : "#AFAFAF"
-            }]}>
-                <Text style={[colorStyles, {fontWeight: "bold", fontSize: 18, padding: 10}]}>{title}</Text>
-            </View>
-        </Pressable>
-    )
-}
+const ToggleSwitch = ({ title, onSelect, isSelected }) => {
+  const handlePress = () => {
+    onSelect(title);
+  };
 
-export default Page = () => {
-
-    const DATA = [
-        {
-            title: 'Course',
-            data: [
-                'Breakfast', 'Starter','Dessert'
-            ]
-        },
-        {
-            title: 'Dietary',
-            data: [
-                'Vegetarian', 'Vegan'
-            ]
-        },
-        {
-            title: 'Type',
-            data: [
-                'Seafood', 'Pasta', 'Beef'
-            ]
-        }
-    ]
-
-    const router = useRouter();
-
-    return (
-        <SafeAreaView style={{
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center"
-        }}>
-            <SectionList
-                sections={DATA}
-                renderItem={({item}) => (<View style={{display: "flex", flexDirection: "column", justifyContent: "space-evenly"}}><ToggleSwitch title={item.toUpperCase()} /></View>)}
-                renderSectionHeader={({section: {title}}) => <Text style={styles.heading}>{title}</Text>}
-            />
-            <View>
-                <Button color={"#EB6F6F"} title="Apply Filters" onPress={() => router.back()} />
-            </View>
-        </SafeAreaView>
-    );
+  return (
+    <Pressable onPress={handlePress}>
+      <View
+        style={[
+          style.toggleSwitch,
+          isSelected ? style.selected : style.unselected
+        ]}
+      >
+        <Text style={style.switchText}>{title}</Text>
+      </View>
+    </Pressable>
+  );
 };
+
+const Page = () => {
+  const DATA = [
+    {
+      title: "Course",
+      data: ["Breakfast", "Starter", "Dessert"],
+    },
+    {
+      title: "Dietary",
+      data: ["Vegetarian", "Vegan"],
+    },
+    {
+      title: "Type",
+      data: ["Seafood", "Pasta", "Beef"],
+    },
+  ];
+
+  const router = useRouter();
+  const [selectedFilter, setSelectedFilter] = useState(null);
+
+  useEffect(() => {
+    const appliedFilters = filterStore.getFilters();
+    if (appliedFilters.length > 0) {
+      setSelectedFilter(appliedFilters[0]);
+    }
+  }, []);
+
+  const handleFilterSelect = (filter) => {
+    if (selectedFilter === filter) {
+      setSelectedFilter(null);
+      filterStore.removeFavourite(filter);
+    } else {
+      setSelectedFilter(filter);
+      filterStore.addFilter(filter);
+    }
+  };
+
+  const clearFilter = () => {
+    setSelectedFilter(null);
+    filterStore.clearFilters();
+  };
+
+  return (
+    <SafeAreaView style={style.container}>
+      <SectionList
+        sections={DATA}
+        renderItem={({ item }) => (
+          <ToggleSwitch
+            title={item.toUpperCase()}
+            onSelect={handleFilterSelect}
+            isSelected={selectedFilter === item.toUpperCase()}
+          />
+        )}
+        renderSectionHeader={({ section: { title } }) => (
+          <Text style={style.heading}>{title}</Text>
+        )}
+      />
+      <View style={style.buttonContainer}>
+        <Button
+          color={"#EB6F6F"}
+          title="Apply Filter"
+          onPress={() => router.back()}
+        />
+        <Button
+          color={"#EB6F6F"}
+          title="Clear Filter"
+          onPress={clearFilter}
+        />
+      </View>
+    </SafeAreaView>
+  );
+};
+
+const style = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    padding: 10,
+  },
+  toggleSwitch: {
+    borderWidth: 2,
+    borderRadius: 30,
+    height: 50,
+    minWidth: 100,
+    margin: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  selected: {
+    borderColor: "#EB6F6F",
+    backgroundColor: "#EB6F6F",
+  },
+  unselected: {
+    borderColor: "#AFAFAF",
+    backgroundColor: "#AFAFAF",
+  },
+  switchText: {
+    fontWeight: "bold",
+    fontSize: 18,
+    padding: 10,
+    color: "white",
+  },
+  heading: {
+    fontWeight: "bold",
+    fontSize: 20,
+    textAlign: "center",
+    marginTop: 20,
+  },
+  buttonContainer: {
+    margin: 20,
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+});
+
+export default Page;
