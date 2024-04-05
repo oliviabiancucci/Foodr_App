@@ -1,12 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import recipeStore from "./SavedRecipes";
 
 export default function SingleRecipeRow({ title, image, tags, id}) {
-    const handleRemove = (id) => {
-        recipeStore.removeFavourite(id);
-    };
 
     const threeTags = tags.slice(0, 3); //takes up to three tags from the api recipe
     
@@ -21,9 +17,6 @@ export default function SingleRecipeRow({ title, image, tags, id}) {
                     </View>
                 ))}
             </View>
-            <TouchableOpacity onPress={() => handleRemove(id)} style={styles.removeButton}>
-                <FontAwesome name="times-circle" size={24} color="#EB6F6F" />
-            </TouchableOpacity>
         </View>
     );
 }

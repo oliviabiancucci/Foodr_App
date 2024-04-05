@@ -1,13 +1,12 @@
+import React from "react";
+import { TouchableOpacity, View, Text, ScrollView, StyleSheet } from "react-native";
 import { FloatingButton } from "app/components";
-import styles from "app/styles";
 import { useRouter } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
-
-const { View, Text, ScrollView, StyleSheet } = require("react-native");
-
-import plannerStore from "app/PlannerStore";
-import SingleRecipeRow from "app/SingleRecipeRow";
 import { observer } from "mobx-react";
+import SingleRecipeRow from "app/SingleRecipeRow";
+import recipeStore from "../SavedRecipes";
+import plannerStore from "app/PlannerStore";
+import { FontAwesome } from '@expo/vector-icons';
 
 const PlannerBlock = ({ title, plan }) => {
     const recipes = plan ? plan.recipes : [];
@@ -19,12 +18,17 @@ const PlannerBlock = ({ title, plan }) => {
                 <Text>No recipes planned</Text>
             ) : (
                 recipes.map((recipe, index) => (
-                    <SingleRecipeRow
-                        key={index}
-                        title={recipe.name}
-                        image={recipe.thumbnail}
-                        tags={recipe.tags}
-                    />
+                    <View key={index}>
+                        <SingleRecipeRow
+                            title={recipe.name}
+                            image={recipe.thumbnail}
+                            tags={recipe.tags}
+                            id={recipe.id}
+                        />
+                        {/* <TouchableOpacity onPress={() => removeRecipe(recipe.id)} style={styles.removeButton}>
+                            <FontAwesome name="times-circle" size={24} color="#EB6F6F" />
+                        </TouchableOpacity> */}
+                    </View>
                 ))
             )}
         </View>
@@ -43,11 +47,15 @@ const Planner = observer(() => {
     date.setDate(date.getDate() + 1);
     const futurePlan = plannerStore.getPlansBetween(date, null);
 
+    // const handleRemove = (recipeId) => {
+    //     plannerStore.removeRecipeFromPlan(recipeId);
+    // };
+
     return (
         <>
             <View style={styles.container}>
                 <ScrollView>
-                    <PlannerBlock title="Today" plan={todayPlan[0]} />
+                    <PlannerBlock title="Today" plan={todayPlan[0]}/>
                     <PlannerBlock title="Tomorrow" plan={tmrwPlan[0]} />
                     {futurePlan.map((p, idx) => {
                         return <PlannerBlock
@@ -59,6 +67,7 @@ const Planner = observer(() => {
                                 day: "numeric",
                             })}
                             plan={p}
+                            handleRemove={handleRemove}
                         />;
                     })}
                 </ScrollView>
@@ -76,6 +85,12 @@ const Planner = observer(() => {
             />
         </>
     );
+});
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
 });
 
 const stylesheet = StyleSheet.create({

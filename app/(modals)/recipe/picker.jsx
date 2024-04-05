@@ -66,7 +66,7 @@ const Picker = () => {
         router.back();
     };
 
-    const favList = recipeStore.saved.map((item, index) => (
+    const favList = recipeStore.saved.map((item, index, handleRemove) => (
         <View
             style={{
                 justifyContent: "space-between",
@@ -77,7 +77,7 @@ const Picker = () => {
             key={(index + 1) * 100}
         >
             <Checkbox
-                size={50}
+                size={30}
                 onCheck={() => addRecipe(index)}
                 onUncheck={() => {
                     removeRecipe(index);
@@ -87,11 +87,14 @@ const Picker = () => {
                 href={{ pathname: "recipe/[id]", params: { id: item.id } }}
                 style={styles.row}
             >
+            
                 <SingleRecipeRow
                     title={item.name}
                     image={item.thumbnail}
                     tags={item.tags}
+                    id={item.id}
                 />
+                
             </Link>
         </View>
     ));
