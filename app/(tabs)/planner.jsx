@@ -16,7 +16,6 @@ const PlannerBlock = observer(({ title, plan }) => {
     }
 
     const handleRemove = (index) => {
-        // plan.recipes = plan.recipes.splice(index, index);
         plannerStore.removeRecipeByIndex(plan, index)
     }
 
@@ -27,7 +26,7 @@ const PlannerBlock = observer(({ title, plan }) => {
                 <Text>No recipes planned</Text>
             ) : (
                 recipes.map((recipe, index) => (
-                    <View key={index} style={{flexDirection: "row", flex: 1}}>
+                    <View key={index} style={styles.recipeRow}>
                         <Link
                             href={{
                                 pathname: "recipe/[id]",
@@ -41,11 +40,12 @@ const PlannerBlock = observer(({ title, plan }) => {
                                 id={recipe.id}
                             />
                         </Link>
-                        <TouchableOpacity style={{margin: 10, alignSelf: "center"}}
+                        <TouchableOpacity
+                            style={styles.trashIcon}
                             onPress={() => promptRemove(index, recipe.name)}
                         >
                             <FontAwesome
-                                name="times-circle"
+                                name="trash-o"
                                 size={40}
                                 color="#EB6F6F"
                             />
@@ -113,6 +113,15 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 15,
+    },
+    recipeRow: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: 10,
+    },
+    trashIcon: {
+        marginLeft: 10,
     },
 });
 
