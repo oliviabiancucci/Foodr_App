@@ -56,7 +56,6 @@ const Page = () => {
                 <SectionList 
                     sections={DATA}
                     renderItem={({item, section}) => {
-                        // Ingredients
                         if (section.title === 'Ingredients') {
                             return (
                                 <Text style={{fontSize: 18, padding: 10}}>
@@ -64,8 +63,8 @@ const Page = () => {
                                     {item.measure} {item.name}
                                 </Text>
                             );
-                        } else { // Directions
-                            return <Text style={{fontSize: 18, padding: 10}}>{item}</Text>; // Added padding here
+                        } else {
+                            return <Text style={{fontSize: 18, padding: 10}}>{item}</Text>;
                         }
                     }}
                     renderSectionHeader={({section: {title}}) => {

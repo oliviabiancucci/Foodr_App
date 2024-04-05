@@ -10,18 +10,16 @@ import { getMatch } from './api';
 
 export default Main = inject('recipeStore')(observer(({ recipeStore }) => {
     const [savedRecipes, setSavedRecipes] = useState([]);
-    // Use this state to control the visibility and content of the overlay
     const [selectedRecipe, setSelectedRecipe] = useState(null);
     const [showDetails, setShowDetails] = useState(false);
 
-    // This function toggles the overlay
     const toggleDetails = (recipe = null) => {
-        setSelectedRecipe(recipe); // Set the selected recipe, or pass null to hide
-        setShowDetails(recipe !== null); // Show or hide the overlay based on whether a recipe is passed
+        setSelectedRecipe(recipe);
+        setShowDetails(recipe !== null);
     };
     const openRecipeDetails = (recipe) => {
-        setSelectedRecipe(recipe); // Set the selected recipe's details
-        setShowDetails(true); // Show the overlay
+        setSelectedRecipe(recipe);
+        setShowDetails(true);
       };
 
     // const [currentRecipeIndex, setCurrentRecipeIndex] = useState(0);
@@ -235,7 +233,7 @@ const styles = StyleSheet.create({
     },
     detailsOverlay: {
         position: 'absolute',
-        top: '70%', // Adjust positioning based on your design
+        top: '70%',
         width: '95%',
         left: '2.5%',
         height: 70,
@@ -243,7 +241,7 @@ const styles = StyleSheet.create({
         padding: 10,
         paddingTop: 5,
         borderRadius: 10,
-        zIndex: 100, // Make sure it's above other content
+        zIndex: 100,
       },
       detailTextTitle:{
         color: '#FFFFFF',
