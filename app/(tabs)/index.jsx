@@ -10,7 +10,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 const App = () => {
     const router = useRouter();
     const handlePress = () => {
-        filterStore.clearFilters();
+        // filterStore.clearFilters();
         router.navigate("/filter");
     }
     return (
