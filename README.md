@@ -1,6 +1,6 @@
 CIS 4030: Mobile Computing 
-
 Olivia Biancucci, Sarah Toll, Brayden Chumbley
+
 
 The Foodr application is similar to the application "Tinder" but for recipes.
 
